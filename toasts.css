@@ -1,0 +1,167 @@
+/* Cubyt toasts. Import after @cubyt/style/tokens.css and @cubyt/ui/ui.css. */
+
+.cubyt-toaster {
+  --cubyt-toaster-offset: 20px;
+  --cubyt-toast-width: 380px;
+
+  position: fixed;
+  z-index: 2147483000;
+  display: flex;
+  width: min(var(--cubyt-toast-width), calc(100vw - var(--cubyt-toaster-offset) * 2));
+  pointer-events: none;
+}
+
+.cubyt-toaster[data-position^="top"] {
+  top: var(--cubyt-toaster-offset);
+}
+
+.cubyt-toaster[data-position^="bottom"] {
+  bottom: var(--cubyt-toaster-offset);
+}
+
+.cubyt-toaster[data-position$="left"] {
+  left: var(--cubyt-toaster-offset);
+}
+
+.cubyt-toaster[data-position$="right"] {
+  right: var(--cubyt-toaster-offset);
+}
+
+.cubyt-toaster[data-position$="center"] {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cubyt-toaster__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cubyt-toaster[data-position^="bottom"] .cubyt-toaster__list {
+  flex-direction: column-reverse;
+}
+
+.cubyt-toast {
+  --cubyt-toast-swipe: 0px;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  background: color-mix(in srgb, var(--cubyt-notice-bg) 70%, var(--ui-surface, #ffffff));
+  box-shadow: var(--ui-shadow-overlay, 0 16px 40px rgb(0 0 0 / 13%));
+  pointer-events: auto;
+  touch-action: pan-y;
+  transform: translateX(var(--cubyt-toast-swipe));
+  animation: cubyt-toast-in 220ms cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.cubyt-toast:focus-visible {
+  outline: 2px solid var(--ui-accent, #12684f);
+  outline-offset: 2px;
+}
+
+.cubyt-toast[data-tone="default"],
+.cubyt-toast[data-tone="loading"] {
+  --cubyt-notice-bg: var(--ui-surface, #ffffff);
+  --cubyt-notice-border: var(--ui-border, #e5e9ee);
+  --cubyt-notice-accent: var(--ui-ink, #3d3d3d);
+}
+
+.cubyt-toast[data-swiping="true"] {
+  transition: none;
+  opacity: 0.85;
+}
+
+.cubyt-toast[data-state="leaving"] {
+  pointer-events: none;
+  animation: cubyt-toast-out 200ms ease-in forwards;
+}
+
+.cubyt-toast[data-swipe-out="right"][data-state="leaving"] {
+  animation-name: cubyt-toast-swipe-right;
+}
+
+.cubyt-toast[data-swipe-out="left"][data-state="leaving"] {
+  animation-name: cubyt-toast-swipe-left;
+}
+
+.cubyt-toast__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  align-self: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.cubyt-toast__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+}
+
+.cubyt-toast .cubyt-notice__text {
+  color: var(--ui-muted, #647084);
+}
+
+.cubyt-toast[data-tone="error"] .cubyt-notice__text {
+  color: var(--ui-danger-ink, #912018);
+}
+
+@media (max-width: 640px) {
+  .cubyt-toaster {
+    --cubyt-toaster-offset: 12px;
+
+    right: var(--cubyt-toaster-offset);
+    left: var(--cubyt-toaster-offset);
+    width: auto;
+    transform: none;
+  }
+}
+
+@keyframes cubyt-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+@keyframes cubyt-toast-out {
+  to {
+    opacity: 0;
+    transform: translateX(var(--cubyt-toast-swipe)) scale(0.96);
+  }
+}
+
+@keyframes cubyt-toast-swipe-right {
+  to {
+    opacity: 0;
+    transform: translateX(110%);
+  }
+}
+
+@keyframes cubyt-toast-swipe-left {
+  to {
+    opacity: 0;
+    transform: translateX(-110%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cubyt-toast,
+  .cubyt-toast[data-state="leaving"] {
+    animation: none;
+    transition: none;
+  }
+}
