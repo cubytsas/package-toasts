@@ -2,6 +2,14 @@
 
 All notable changes to `@cubyt/toasts` are documented here.
 
+## [1.1.0] - 2026-10-01
+
+### Changed
+
+- Pause toast timers while the document is hidden, without allowing visibility and interaction pauses to cancel one another.
+- Move the stylesheet under `src/styles/` while preserving the public `@cubyt/toasts/toasts.css` import.
+- Simplify the README and document repository conventions.
+
 ## [1.0.1] - 2026-09-28
 
 ### Changed

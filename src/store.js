@@ -18,6 +18,7 @@ export function createToastStore(options = {}) {
   let toasts = [];
   let counter = 0;
   let paused = false;
+  const pauseReasons = new Set();
   const listeners = new Set();
   const timers = new Map();
 
@@ -110,7 +111,8 @@ export function createToastStore(options = {}) {
       for (const toast of toasts) changed = markLeaving(toast.id, reason) || changed;
       if (changed) emit();
     },
-    pause() {
+    pause(reason = "manual") {
+      pauseReasons.add(reason);
       if (paused) return;
       paused = true;
       const now = Date.now();
@@ -120,8 +122,9 @@ export function createToastStore(options = {}) {
         timer.remaining = Math.max(timer.remaining - (now - timer.start), 0);
       }
     },
-    resume() {
-      if (!paused) return;
+    resume(reason = "manual") {
+      pauseReasons.delete(reason);
+      if (!paused || pauseReasons.size > 0) return;
       paused = false;
       for (const [id, timer] of [...timers]) startTimer(id, timer.remaining);
     },

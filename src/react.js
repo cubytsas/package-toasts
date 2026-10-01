@@ -113,6 +113,17 @@ export function Toaster({
     return watcher.stop;
   }, [container]);
 
+  useEffect(() => {
+    const syncVisibility = () =>
+      document.hidden ? store.pause("visibility") : store.resume("visibility");
+    syncVisibility();
+    document.addEventListener("visibilitychange", syncVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", syncVisibility);
+      store.resume("visibility");
+    };
+  }, [store]);
+
   const region = h(
     "section",
     {
@@ -120,13 +131,11 @@ export function Toaster({
       "aria-label": label,
       "data-position": position,
       "data-empty": toasts.length === 0,
-      onPointerEnter: () => store.pause(),
-      onPointerLeave: (event) => {
-        if (!event.currentTarget.contains(document.activeElement)) store.resume();
-      },
-      onFocus: () => store.pause(),
+      onPointerEnter: () => store.pause("pointer"),
+      onPointerLeave: () => store.resume("pointer"),
+      onFocus: () => store.pause("focus"),
       onBlur: (event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) store.resume();
+        if (!event.currentTarget.contains(event.relatedTarget)) store.resume("focus");
       },
     },
     h(

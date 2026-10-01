@@ -1,7 +1,7 @@
 {
   "name": "@cubyt/toasts",
-  "version": "1.0.1",
-  "description": "Accessible toast notifications (store, vanilla renderer, React Toaster) for Cubyt apps",
+  "version": "1.1.0",
+  "description": "Accessible toast notifications (store, vanilla renderer, React Toaster) for Cubyt Sas products",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,19 +25,19 @@
       "import": "./src/react.js",
       "default": "./src/react.js"
     },
-    "./toasts.css": "./toasts.css",
+    "./toasts.css": "./src/styles/toasts.css",
     "./package.json": "./package.json"
   },
   "files": [
     "src",
     "types",
-    "toasts.css",
     "README.md",
     "CHANGELOG.md",
+    "CONTRIBUTING.md",
     "LICENSE"
   ],
   "sideEffects": [
-    "./toasts.css"
+    "./src/styles/toasts.css"
   ],
   "scripts": {
     "test": "node --test",

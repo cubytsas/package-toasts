@@ -1,10 +1,11 @@
 # @cubyt/toasts
 
-Accessible toast notifications for Cubyt apps, with a framework-agnostic store, a vanilla renderer and a React `Toaster`.
+Accessible toast notifications for Cubyt Sas products, with a framework-agnostic store, a vanilla renderer and a React `Toaster`.
 
 - `toast.success/error/info/warning/loading/promise` with per-tone durations and `max` visible toasts.
 - Pause on hover or focus, Escape and swipe to dismiss, and a polite live region (errors use `role="alert"`).
-- Action buttons route through [`@cubyt/navigation`](https://github.com/CubytsAS/package-navigation) (SPA route, full redirect or new tab, with unsafe URLs rejected).
+- Timers pause while the page is hidden and while the toast region is hovered or focused.
+- Action buttons route through [`@cubyt/navigation`](https://github.com/cubytsas/package-navigation) (SPA route, full redirect or new tab, with unsafe URLs rejected).
 - While a `<dialog>` modal is open, toasts render inside it so they remain clickable and announced.
 
 ## Install
@@ -70,9 +71,3 @@ toast.update(id, { tone: "success", title: "Sincronizado", duration: 3000 });
 | `onDismiss(reason)` | `timeout`, `overflow`, `close-button`, `escape`, `swipe`, `action` or `programmatic`. |
 
 Use `createToaster({ max, durations })` for an isolated instance and pass it to `<Toaster toaster={…}>` or `mountToaster({ toaster })`.
-
-## Publishing
-
-This package is maintained at [CubytsAS/package-toasts](https://github.com/CubytsAS/package-toasts). Use its **Publish to npm** GitHub Actions workflow to publish after validating the package contents. The workflow calls the shared organization workflow in [`CubytsAS/.github`](https://github.com/CubytsAS/.github).
-
-The organization must provide an Actions secret named `NPM_TOKEN` with publish access to the `@cubyt` npm scope. Do not commit npm credentials or place them in package files. Increment `version` in `package.json` before publishing; npm versions are immutable. Publish `@cubyt/style@1.1.0` and `@cubyt/ui@1.0.0` first.

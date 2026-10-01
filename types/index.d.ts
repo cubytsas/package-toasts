@@ -54,8 +54,9 @@ export interface ToastStore {
   dismiss(id: string, reason?: ToastDismissReason): void;
   dismissAll(reason?: ToastDismissReason): void;
   remove(id: string): void;
-  pause(): void;
-  resume(): void;
+  /** Pause timers under a named reason; timers resume after all reasons clear. */
+  pause(reason?: string): void;
+  resume(reason?: string): void;
   readonly paused: boolean;
   get(id: string): Toast | undefined;
   getSnapshot(): Toast[];
